@@ -21,7 +21,7 @@ jobs:
           -e TOKEN=${{secrets.TOKEN_JP}}
           -e SECRET=${{secrets.SECRET_JP}}
           -e MASTERNAME=${{secrets.MASTERNAME_JP}}
-          -e PALENQUE_KEY=${{secrets.PALENQUE_KEY}}
+          -e PALENQUE_KEY="${{secrets.PALENQUE_KEY}}"
           image_test
       
       #- name: install curl
