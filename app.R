@@ -95,12 +95,37 @@ ui <- navbarPage(
   
   #################
   # Radar meteorológico
-  tabPanel(
+  # https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/swagger-ui.html#/
+  navbarMenu(
     title = "Radar",
-    icon = icon("radar", verify_fa = FALSE),
-    value = "radar",
-    radarUI(id = "radar")
+    icon = icon("satellite-dish", verify_fa = FALSE),
+    tabPanel(
+      title = "Granizo",
+      value = "radar_granizo",
+      radarGranizoUI(id = "radar_granizo")
+    ),
+    tabPanel(
+      title = "Lluvias",
+      value = "radar_lluvias",
+      radarLluviasUI(id = "radar_lluvias")
+    ),
+    tabPanel(
+      title = "Mediciones",
+      value = "radar_mediciones",
+      radarMedicionesUI(id = "radar_mediciones")
+    ),
+    tabPanel(
+      title = "Sumarizaciones Mediciones",
+      value = "radar_sumarizaciones_mediciones",
+      radarSumarizacionesMedicionesUI(id = "radar_sumarizaciones_mediciones")
+    ),
+    tabPanel(
+      title = "Vols",
+      value = "radar_vols",
+      radarVolsUI(id = "radar_vols")
+    )
   ),
+  
   
   #################
   # Radiación solar
@@ -179,7 +204,11 @@ server <- function(input, output, session) {
   
   #################
   # radar
-  radarServer(id = "radar")
+  radarGranizoServer(id = "radar_granizo")
+  radarLluviasServer(id = "radar_lluvias")
+  radarMedicionesServer(id = "radar_mediciones")
+  radarSumarizacionesMedicionesServer(id = "radar_sumarizaciones_mediciones")
+  radarVolsServer(id = "radar_vols")
   
   #################
   # Estadisticas Anguil

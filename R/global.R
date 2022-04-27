@@ -6,7 +6,10 @@ library(shinydashboard)
 library(plotly)
 library(RColorBrewer)
 library(wesanderson)
-#library(shinyjs)
+library(leaflet)
+library(jsonlite)
+library(tidyverse)
+
 
 # La parte izquierda es la que se ve por ejemplo en la tabla de historicos
 # La parte derecha, es la que busca coincidencia en los nombres de la cartografía
@@ -22,3 +25,7 @@ direcciones_viento <- as_tibble(c("E","NE", "N","NO","O","SO","S","SE"))
 A872823 <-  siga::siga_datos("A872823") # Descarga de datos de Anguil
 fecha_min_A872823 <- min(A872823$fecha) # Fecha minima del dataset
 fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
+
+# Para radar
+api_url   <-   "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
+api_token <- Sys.getenv("PALENQUE_KEY")

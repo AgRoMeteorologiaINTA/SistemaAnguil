@@ -1,15 +1,14 @@
 #################################
 # UI
-radarUI <- function(id) {
+radarMedicionesUI <- function(id) {
   ns <- NS(id)
   
-  tagList(tags$h1("radar"),
-          tags$h4("radar"))
+  tagList(tags$h1("Mediciones"))
 }
 
 #################################
 # SERVER
-radarServer <- function(id) {
+radarMedicionesServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
                  

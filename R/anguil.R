@@ -1,4 +1,4 @@
-library(tidyverse)
+# library(tidyverse)
 
 # Lectura del archivo anguil.csv
 anguil_csv <- readr::read_csv(
