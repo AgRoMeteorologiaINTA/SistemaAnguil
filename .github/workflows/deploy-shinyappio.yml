@@ -2,7 +2,7 @@ name: R
 
 on:
   push:
-    branches: [ main ]
+    branches: [ radar ]
 jobs:
   deploy-shiny:
 
@@ -17,10 +17,10 @@ jobs:
       - name: execute
         run: >
           docker run
-          -e SHINY_ACC_NAME=${{ secrets.SHINY_ACC_NAME }}
-          -e TOKEN=${{secrets.TOKEN}}
-          -e SECRET=${{secrets.SECRET}}
-          -e MASTERNAME=${{secrets.MASTERNAME}}
+          -e SHINY_ACC_NAME=${{ secrets.SHINY_ACC_NAME_JP }}
+          -e TOKEN=${{secrets.TOKEN_JP}}
+          -e SECRET=${{secrets.SECRET_JP}}
+          -e MASTERNAME=${{secrets.MASTERNAME_JP}}
           image_test
       
       #- name: install curl
