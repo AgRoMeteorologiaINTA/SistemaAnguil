@@ -8,7 +8,7 @@ library(RColorBrewer)
 library(wesanderson)
 library(leaflet)
 library(jsonlite)
-library(tidyverse)
+
 
 
 # La parte izquierda es la que se ve por ejemplo en la tabla de historicos
