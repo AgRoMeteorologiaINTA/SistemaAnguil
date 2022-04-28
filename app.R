@@ -1,5 +1,3 @@
-library(tidyverse)
-
 ##############################
 # UI
 ui <- navbarPage(
