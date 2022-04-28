@@ -59,6 +59,7 @@ radarGranizoUI <- function(id) {
       
       mainPanel(
         h2("Listado con llamado a la api por fecha filtrada"),
+        textOutput(ns("debug")),
         tableOutput(ns("tabla"))
         
       )
@@ -75,9 +76,15 @@ radarGranizoServer <- function(id) {
                function(input, output, session) {
                  
                  output$tabla <- renderTable({
+                   ns <- session$ns
                    llamar_api("granizo",
                               fechaDesde = input$inFechas[1],
                               fechaHasta = input$inFechas[2])
+                 })
+                 
+                 output$debug <- renderText({
+                   ns <- session$ns
+                   paste0("Salida", api_token)
                  })
                  
                  
