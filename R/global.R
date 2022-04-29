@@ -94,7 +94,7 @@ api_url   <-   "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
 
 var <- Sys.getenv("PALENQUE_KEY", unset=NA)
 if(is.na(var)){
-  stop(paste0("cannot find ",name, " !"),call. = FALSE)
+  stop(paste0("cannot find ","PALENQUE_KEY", " !"),call. = FALSE)
 }
 gsub("\"", '',var)
 api_token <- paste0("Bearer ", var)
