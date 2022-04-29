@@ -84,7 +84,7 @@ radarGranizoServer <- function(id) {
                  
                  output$debug <- renderText({
                    ns <- session$ns
-                   paste0("Salida", api_token)
+                   paste0("Salida: ", api_token)
                  })
                  
                  

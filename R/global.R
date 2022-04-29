@@ -91,4 +91,10 @@ fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
 
 # Para radar
 api_url   <-   "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
-api_token <- paste0("Bearer ", Sys.getenv("PALENQUE_KEY"))
+
+var <- Sys.getenv("PALENQUE_KEY", unset=NA)
+if(is.na(var)){
+  stop(paste0("cannot find ",name, " !"),call. = FALSE)
+}
+gsub("\"", '',var)
+api_token <- paste0("Bearer ", var)
