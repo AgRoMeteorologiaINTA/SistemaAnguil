@@ -25,5 +25,9 @@ RUN install2.r rsconnect \
 RUN R -e 'remotes::install_github("AgRoMeteorologiaINTA/agromet", build_vignettes = FALSE)'
 RUN R -e 'remotes::install_github("AgRoMeteorologiaINTA/siga", build = FALSE)'
 
+# Para pasar la KEY desde GITHUB, al contenedor
+ARG BUILD_PALENQUE_KEY=valor_default 
+ENV PALENQUE_KEY ${BUILD_PALENQUE_KEY}
+
 # Deploy de la aplicación
 CMD Rscript deploy.R

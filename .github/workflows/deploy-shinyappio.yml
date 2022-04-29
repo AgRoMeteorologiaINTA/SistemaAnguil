@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build -t image_test .
+        run: docker build --build-arg BUILD_PALENQUE_KEY=${{ secrets.PALENQUE_KEY }} -t image_test .
 
       - name: execute
         run: >
@@ -21,7 +21,6 @@ jobs:
           -e TOKEN=${{secrets.TOKEN_JP}}
           -e SECRET=${{secrets.SECRET_JP}}
           -e MASTERNAME=${{secrets.MASTERNAME_JP}}
-          -e PALENQUE_KEY="${{secrets.PALENQUE_KEY}}"
           image_test
       
       #- name: install curl
