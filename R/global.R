@@ -90,3 +90,44 @@ fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
 api_url <- "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
 palenque_key <- Sys.getenv("PALENQUE_KEY", unset=NA)
 
+llamar_api <-
+  function(metodo,
+           fechaDesde = "2022-01-01",
+           fechaHasta = "2022-01-01") {
+    url <-
+      paste0(api_url,
+             metodo,
+             "?desde=",
+             fechaDesde,
+             "&hasta=",
+             fechaHasta,
+             "&pageIndex=0")
+    
+    imagenes <- c()
+    page <- 0
+    repeat {
+      res <- httr::GET(
+        url = url,
+        httr::add_headers(
+          "Authorization" = paste0("Bearer palenque:", palenque_key),
+          "accept" = "application/json",
+          "Content-Type" = "application/json"
+        )
+      )
+      
+      data <- fromJSON(rawToChar(res$content))
+      
+      imagenes <- append(imagenes, data$items$imageUrl)
+      
+      #data$nextPageIndex
+      page <- page + 1
+      
+      if (data$moreData == FALSE) {
+        break
+      }
+      
+    }
+    
+    return(imagenes)
+  }
+

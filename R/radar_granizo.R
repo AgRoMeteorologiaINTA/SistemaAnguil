@@ -1,44 +1,3 @@
-llamar_api <-
-  function(metodo,
-           fechaDesde = "2022-01-01",
-           fechaHasta = "2022-01-01") {
-    url <-
-      paste0(api_url,
-             metodo,
-             "?desde=",
-             fechaDesde,
-             "&hasta=",
-             fechaHasta,
-             "&pageIndex=0")
-    
-    imagenes <- c()
-    page <- 0
-    repeat {
-      res <- httr::GET(
-        url = url,
-        httr::add_headers(
-          "Authorization" = paste0("Bearer palenque:", palenque_key),
-          "accept" = "application/json",
-          "Content-Type" = "application/json"
-        )
-      )
-      
-      data <- fromJSON(rawToChar(res$content))
-      
-      imagenes <- append(imagenes, data$items$imageUrl)
-      
-      #data$nextPageIndex
-      page <- page + 1
-      
-      if (data$moreData == FALSE) {
-        break
-      }
-      
-    }
-    
-    return(imagenes)
-  }
-
 #################################
 # UI
 radarGranizoUI <- function(id) {
@@ -64,7 +23,7 @@ radarGranizoUI <- function(id) {
             
             mainPanel(
               h2("Listado con llamado a la api por fecha filtrada"),
-              textOutput(ns("debug")),
+              # textOutput(ns("debug")),
               tableOutput(ns("tabla"))
             )
             
@@ -77,6 +36,7 @@ radarGranizoUI <- function(id) {
 radarGranizoServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
+                 
                  output$tabla <- renderTable({
                    ns <- session$ns
                    llamar_api(
@@ -86,10 +46,10 @@ radarGranizoServer <- function(id) {
                    )
                  })
                  
-                 output$debug <- renderText({
-                   ns <- session$ns
-                   paste0("Sys.getenv PALENQUE_KEY: ", palenque_key)
-                 })
+                 # output$debug <- renderText({
+                 #   ns <- session$ns
+                 #   paste0("Sys.getenv PALENQUE_KEY: ", palenque_key)
+                 # })
                  
                })
 }

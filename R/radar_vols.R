@@ -3,7 +3,32 @@
 radarVolsUI <- function(id) {
   ns <- NS(id)
   
-  tagList(tags$h1("Vols"))
+  tagList(tags$h1("Vols"),
+          
+          sidebarLayout(
+            sidebarPanel(
+              dateRangeInput(
+                ns("inFechas"),
+                "Rango de fechas:",
+                min    = "2020-01-01",
+                max    = "2022-04-01",
+                start  = "2022-02-01",
+                end    = "2022-04-01",
+                format = "dd/mm/yyyy",
+                separator = " - ",
+                language = "es"
+              )
+              
+            ),
+            
+            mainPanel(
+              h2("Listado con llamado a la api por fecha filtrada"),
+              # textOutput(ns("debug")),
+              tableOutput(ns("tabla"))
+            )
+            
+          ))
+  
 }
 
 #################################
@@ -11,6 +36,15 @@ radarVolsUI <- function(id) {
 radarVolsServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
+                 
+                 output$tabla <- renderTable({
+                   ns <- session$ns
+                   llamar_api(
+                     "vols",
+                     fechaDesde = input$inFechas[1],
+                     fechaHasta = input$inFechas[2]
+                   )
+                 })
                  
                })
 }
