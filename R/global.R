@@ -9,11 +9,8 @@ library(wesanderson)
 library(leaflet)
 library(jsonlite)
 
-
-
 # La parte izquierda es la que se ve por ejemplo en la tabla de historicos
 # La parte derecha, es la que busca coincidencia en los nombres de la cartografía
-
 mes_id <- c("ENE", "FEB","MAR", "ABR","MAY", "JUN","JUL", "AGO","SEP", "OCT", "NOV", "DIC")
 mes_desc <- c("Enero", "Febrero", "Marzo", "Abril","Mayo", "Junio","Julio", "Agosto","Septiembre", "Octubre","Noviembre", "Diciembre")
 meses_df <- data.frame(mes_id,mes_desc)
@@ -90,7 +87,6 @@ fecha_min_A872823 <- min(A872823$fecha) # Fecha minima del dataset
 fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
 
 # Para radar
-api_url   <-   "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
+api_url <- "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
+palenque_key <- Sys.getenv("PALENQUE_KEY", unset=NA)
 
-var <- Sys.getenv("PALENQUE_KEY", unset=NA)
-api_token <- paste0("Bearer ", var)
