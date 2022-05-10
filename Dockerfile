@@ -22,6 +22,7 @@ RUN install2.r rsconnect \
 # Instalación de software del INTA
 RUN R -e 'remotes::install_github("AgRoMeteorologiaINTA/agromet", build_vignettes = FALSE)'
 RUN R -e 'remotes::install_github("AgRoMeteorologiaINTA/siga", build = FALSE)'
+RUN rm -rf /tmp/
 
 # Deploy de la aplicación
 CMD Rscript deploy.R

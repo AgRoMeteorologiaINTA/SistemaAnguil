@@ -19,6 +19,8 @@ dias <- seq(from = as.Date("2021/7/1"),
 
 sacar_fechas <- dias[!(dias %in% fechas_heladas)]
 
+# archivos_repositorio <- list.files("./www/repositorios_sig/Presipitaciones/", pattern = "\\.xls$")
+
 #################################
 # UI
 cartografiaUI <- function(id) {
@@ -157,7 +159,56 @@ cartografiaUI <- function(id) {
     # repositorio digital de archivos ######################
     tabPanel(
       "Repositorio digital de archivos",
-      h1("Gis")
+      tagList(
+        
+        # # preparado para 2023
+        # tags$h2("2023"),
+        # fluidRow(lapply(1:12, function(i) {
+        #   actionButton(
+        #     paste0('boton', mes_id[i]),
+        #     label = mes_desc[i],
+        #     value = mes_id[i],
+        #     onclick = paste0(
+        #       "window.open('repositorios_sig/Precipitaciones/2023/",
+        #       mes_id[i] ,
+        #       "2023" ,
+        #       ".xls','_blank','resizable')"
+        #     )
+        #   )
+        # })), 
+        
+        tags$h2("2022"),
+        fluidRow(lapply(1:12, function(i) {
+          actionButton(
+            paste0('boton', mes_id[i]),
+            label = mes_desc[i],
+            value = mes_id[i],
+            onclick = paste0(
+              "window.open('repositorios_sig/Precipitaciones/2022/",
+              mes_id[i] ,
+              "2022" ,
+              ".xls','_blank','resizable')"
+            )
+          )
+        })), 
+        
+        tags$h2("2021"),
+        fluidRow(lapply(1:12, function(i) {
+          actionButton(
+            paste0('boton', mes_id[i]),
+            label = mes_desc[i],
+            value = mes_id[i],
+            onclick = paste0(
+              "window.open('repositorios_sig/Precipitaciones/2021/",
+              mes_id[i] ,
+              "2021" ,
+              ".xls','_blank','resizable')"
+            )
+          )
+        }))
+        
+        
+      )
     )
     
     
