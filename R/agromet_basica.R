@@ -3,6 +3,8 @@
 agroBasicaUI <- function(id) {
   ns <- NS(id)
   
+  tags$style(HTML(".datepicker {z-index:99999 !important;}"))
+  
   tagList(sidebarLayout(
     sidebarPanel(
       h3("Estación meteorológica EEA INTA Anguil"),
@@ -16,7 +18,9 @@ agroBasicaUI <- function(id) {
         format = "dd/mm/yyyy",
         separator = " - ",
         language = "es"
-      )
+      ),
+      tags$style(HTML(".datepicker {z-index:99999 !important;}"))
+      
       
     ),
     
