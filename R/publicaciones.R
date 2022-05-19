@@ -1,93 +1,52 @@
+# Listado de archivos en la carpeta www/informes
+carpeta_informes <-
+  list.files("./www/informes/", recursive = TRUE)
+
+#Los que contienen la palabra "Informe"
+archivos_informes <- carpeta_informes %>% str_subset("Informe") %>% str_sort(decreasing = TRUE)
+
+#Los que NO contienen la palabra "Informe"
+archivos_publicaciones <-
+  carpeta_informes %>% str_subset("Informe", negate = TRUE) %>% str_sort(decreasing = TRUE)
+
 #################################
 # UI
 publicacionesUI <- function(id) {
   ns <- NS(id)
   
-  tagList(
-    tags$h1("Informes y publicaciones"),
-    
-    navlistPanel(
-      "Informe de evaluación de cultivos",
-      tabPanel(
-        "Diciembre 2021",
-        "Informe de DICIEMBRE.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/Informe de DICIEMBRE.pdf")
-      ),
-      tabPanel(
-        "Junio 2021",
-        "Informe de JUNIO.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/Informe de JUNIO.pdf")
-      ),
-      tabPanel(
-        "Marzo 2021",
-        "Informe de MARZO.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/Informe de MARZO.pdf")
-      ),
-      tabPanel(
-        "Febrero 2021",
-        "Informe de FEBRERO.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/Informe de FEBRERO.pdf")
-      ),
-      
-      
-      "Publicaciones climáticas",
-      
-      tabPanel(
-        "Tormentas en La Pampa Dic. 2021",
-        "Tormentas_LaPampa_Dic2021.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/Tormentas_LaPampa_Dic2021.pdf")
-      ),
-      tabPanel(
-        "Precipitaciones de General Acha",
-        "inta_analisis_de_precipitaciones_gralacha.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/inta_analisis_de_precipitaciones_gralacha.pdf")
-      ),
-      tabPanel(
-        "Cambio climático en Anguil",
-        "inta_belmonte_indices_de_cambio_climatico_en_anguil_0.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/inta_belmonte_indices_de_cambio_climatico_en_anguil_0.pdf")
-      ),
-      tabPanel(
-        "Estadísticas agroclimáticasde la EEA Anguil",
-        "inta_estadisticas_agroclimaticas_eea_anguil.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/inta_estadisticas_agroclimaticas_eea_anguil.pdf")
-      ),
-      tabPanel(
-        "Caracterización agroclimática de las heladas en Anguil",
-        "inta_pt_100_heladas_0.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/inta_pt_100_heladas_0.pdf")
-      ),
-      tabPanel(
-        "Síntesis agrometeorológica de 25 de Mayo, La",
-        "inta_sintesis_agrometeorologica_25_de_mayo.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/inta_sintesis_agrometeorologica_25_de_mayo.pdf")
-      ),
-      tabPanel(
-        "CARACTERIZACION DEL REGIMEN DE HELADAS EN GENERAL PICO",
-        "script-tmp-inta-caracterizacin-del-rgimen-de-heladas-en-general-.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/script-tmp-inta-caracterizacin-del-rgimen-de-heladas-en-general-.pdf")
-      ),
-      tabPanel(
-        "VARIABLES ASTRONÓMICAS LOCALIDADES DE LA PAMPA",
-        "variables_astronomicas_la_pampa.pdf",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./informes/variables_astronomicas_la_pampa.pdf")
-      )
-      
-    )
-    
-  )
+  tagList(tags$h1("Informes y publicaciones"),
+          
+          do.call(
+            navlistPanel,
+            c(
+              "Informes de evaluación de cultivos",
+              lapply(1:length(archivos_informes), function(j) {
+                tabPanel(
+                  title = stringr::str_sub(archivos_informes[j],4,-5), # se sacan los nºs del comienzo, y el ".pdf"
+                  value = archivos_informes[j],
+                  tags$iframe(
+                    style = "height:800px; width:100%; scrolling=yes",
+                    src = paste0("./informes/", archivos_informes[j])
+                  )
+                )
+                
+              }),
+              "Publicaciones climáticas",
+              lapply(1:length(archivos_publicaciones), function(j) {
+                tabPanel(
+                  title = archivos_publicaciones[j],
+                  value = archivos_publicaciones[j],
+                  tags$iframe(
+                    style = "height:800px; width:100%; scrolling=yes",
+                    src = paste0("./informes/", archivos_publicaciones[j])
+                  )
+                )
+                
+              })
+            )
+            
+            
+          ))
 }
 
 #################################
