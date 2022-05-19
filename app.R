@@ -106,7 +106,7 @@ ui <- navbarPage(
   # Radiación solar
   tabPanel(
     title = "Radiación solar",
-    icon = icon("radiacion", verify_fa = FALSE),
+    #icon = icon("radiacion", verify_fa = FALSE),
     value = "radiacion",
     radiacionUI(id = "radiacion")
   ),
@@ -180,6 +180,11 @@ server <- function(input, output, session) {
   #################
   # radar
   radarServer(id = "radar")
+  
+  #################
+  # Radiación solar
+  radiacionServer(id = "radiacion")
+  
   
   #################
   # Estadisticas Anguil

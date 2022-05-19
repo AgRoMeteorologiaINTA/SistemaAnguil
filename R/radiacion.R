@@ -1,164 +1,56 @@
+archivos_rad_solar <-
+  list.files("./www/radiacion/", recursive = TRUE)
+
+archivo_info <- paste0("./radiacion/", "radiacion.png")
+
+# flag <- TRUE
+
 #################################
 # UI
 radiacionUI <- function(id) {
   ns <- NS(id)
   
-  
-  
-  tagList(
-    tags$h1("Radiación solar"),
-    
-# <<<<<<< HEAD
-#     sidebarLayout(
-#       sidebarPanel(
-#         
-#         radioGroupButtons(
-#           inputId = "inGB1",
-#           label = "Irradiación diaria promedio mensual",
-#           choices = c(meses),
-#           direction = "horizontal",
-#           individual = TRUE
-#         ),
-#         
-#         "------------------",
-#         
-#         radioGroupButtons(
-#           inputId = "inGB2",
-#           label = "Irradiación diaria promedio mensual",
-#           choices = c(meses),
-#           direction = "vertical",
-#           individual = FALSE
-#         ),
-#         
-#         "------------------",
-#         
-#         selectInput(ns('inAnio'),
-#                     'AÑO',
-#                     choices = c("2022",
-#                                 "2021",
-#                                 "2020")),
-#         selectInput(ns('inMes'),
-#                     'MES',
-#                     choices = c(meses)),
-#         selectInput(
-#           ns('inX'),
-#           'ÍTEM',
-#           choices = c(
-#             "1Q" = "1Q",
-#             "2Q" = "2Q",
-#             "Acumulado" = "TOT",
-#             "Anomalias" = "ANOM"
-#           )
-#         )
-#       ),
-#       mainPanel(mainPanel(uiOutput(ns("imagen_radiacion")))
-#                 )
-# =======
-    navlistPanel(
-      widths = c(3, 9),
-      tabPanel(
-        "info",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/radiacion.png")
-      ),
-      "Atlas de energia solar",
-      "Radiacíon solar promedio mensual y anual de la pampa húmeda",
-      "",
-      tabPanel(
-        "Enero",
-        "RD_promedio_Enero.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Enero.png")
-      ),
-      tabPanel(
-        "Febrero",
-        "RD_promedio_Febrero.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Febrero.png")
-      ),
-      tabPanel(
-        "Marzo",
-        "RD_promedio_Marzo.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Marzo.png")
-      ),
-      tabPanel(
-        "Abril",
-        "RD_promedio_Abril.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Abril.png")
-      ),
-      tabPanel(
-        "Mayo",
-        "RD_promedio_Mayo.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Mayo.png")
-      ),
-      tabPanel(
-        "Junio",
-        "RD_promedio_Junio.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Junio.png")
-      ),
-      tabPanel(
-        "Julio",
-        "RD_promedio_Julio.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Julio.png")
-      ),
-      tabPanel(
-        "Agosto",
-        "RD_promedio_Agosto.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Agosto.png")
-      ),
-      tabPanel(
-        "Septiembre",
-        "RD_promedio_Septiembre.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Septiembre.png")
-      ),
-      tabPanel(
-        "Octubre",
-        "RD_promedio_Octubre.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Octubre.png")
-      ),
-      tabPanel(
-        "Noviembre",
-        "RD_promedio_Noviembre.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Noviembre.png")
-      ),
-      tabPanel(
-        "Diciembre",
-        "RD_promedio_Diciembre.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Diciembre.png")
-      ),
-      tabPanel(
-        "ANUAL",
-        "RD_promedio_Anual.png",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/RD_promedio_Anual.png")
+  # tagList(
+  # tags$h1("Radiación solar")
+  sidebarLayout(
+    sidebarPanel(
+      tags$h2("Información"),
+      actionButton(ns("inBotonInfo"),
+                   "Info"),
+      
+      tags$h2("Irradiación diaria, promedio mensual"),
+      radioGroupButtons(
+        inputId = ns("inGB1"),
+        label = "",
+        choices = mes_desc,
+        direction = "horizontal",
+        individual = TRUE
       ),
       
+      tags$h2("Radiación solar mensual"),
+      selectInput(ns('inAnio'),
+                  'AÑO',
+                  choices = c("2022",
+                              "2021",
+                              "2020")),
+      selectInput(ns('inMes'),
+                  'MES',
+                  choices = mes_desc),
       
-      "Mapas de radiacón solar mensual",
+      tags$h2("Irradiación acumulada, promedio anual"),
+      actionButton(ns("inBotonAnual"),
+                   "Promedio anual")
       
-      tabPanel(
-        "AÑO 2021",
-        "Radiacion_solar_Agosto_2021.jpg",
-        tags$iframe(style = "height:800px; width:100%; scrolling=yes",
-                    src = "./radiacion/Radiacion_solar_Agosto_2021.jpg")
-      )
-      
-# >>>>>>> 3481b1015dc0b555aacb564ca8128aa11fcc1e35
-    )
-      
-    
+    ),
+    mainPanel(
+      # textOutput(ns("salida")),
+      uiOutput(ns(
+        "imagen_radiacion"
+      )))
     
   )
+  
+  # )
 }
 
 #################################
@@ -167,20 +59,75 @@ radiacionServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
                  
-                 output$imagen_radiacion <- renderUI({
-                   ns <- session$ns
+                 observeEvent(input$inBotonInfo, {
+                   output$imagen_radiacion <- renderUI({
+                     src <- paste0("./radiacion/", "radiacion.png")
+                     img(src = src, width = "65%")
+                   })
                    
-                   src <- archivos_sequia %>%
-                     str_subset(input$inAnioRad) %>%
-                     str_subset(input$inMesRad)
-                   
-                   if (identical(src, character(0))) {
-                     HTML('<h2 style="color: red;">No hay imagen para el periodo seleccionado</h2>')
-                   } else {
-                     src <- paste0("./sequias/", src)
-                     img(src = src, width = "100%")
-                   }
                  })
+                 
+                 observeEvent(input$inGB1, {
+                   output$imagen_radiacion <- renderUI({
+                     src <-
+                       paste0("./radiacion/", "RD_promedio_", input$inGB1, ".png")
+                     
+                     if (identical(src, character(0))) {
+                       HTML('<h2 style="color: red;">No hay imagen para el periodo seleccionado</h2>')
+                     } else {
+                       img(src = src)
+                       # img(src = src, width = "80%")
+                     }
+                     
+                   })
+                 })
+                 
+                 # output$salida <- renderText({
+                 #   src <- paste0("./radiacion/Radiacion_solar_",input$inMes,"_",input$inAnio,".jpg")
+                 #   src
+                 # })
+                 
+                 # Radiacion solar
+                 observeEvent(c(input$inAnio, input$inMes), {
+                   
+                   output$imagen_radiacion <- renderUI({
+                     #ns <- session$ns
+                     
+                     src <- archivos_rad_solar %>%
+                       str_subset(input$inAnio) %>%
+                       str_subset(input$inMes)
+                     
+                     if (identical(src, character(0))) {
+                       texto_rojo <- '<h3 style="color: red;">¡No hay imagen para el periodo seleccionado!</h3>'
+                       texto_negro <- '<h4>Información:</h4>'
+                       imagen_info <- paste0('<img src="',archivo_info,'">')
+                       code_html <- paste0(texto_rojo, texto_negro, imagen_info)
+                       HTML(code_html)
+                       
+                     } else {
+                       src <- paste0("./radiacion/", src)
+                       img(src = src, width = "85%")
+                     }
+                     
+                   })
+                 })
+                 
+                 observeEvent(input$inBotonAnual, {
+                   output$imagen_radiacion <- renderUI({
+                     src <- paste0("./radiacion/", "RD_promedio_Anual.png")
+                     img(src = src, width = "60%")
+                   })
+                   
+                 })
+                 
+                 # # solo para el aranque por default
+                 # output$imagen_radiacion <- renderUI({
+                 #   # src <- paste0("./radiacion/", "radiacion.png")
+                 #   src <- archivo_info
+                 #   img(src = src, width = "65%")
+                 # })
+                 
+                 
                  
                })
 }

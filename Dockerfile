@@ -17,7 +17,8 @@ RUN install2.r rsconnect \
 				reshape2 \
 				shinydashboard \
 				shinythemes \
-				wesanderson
+				wesanderson \
+				shinyWidgets
 
 # Instalación de software del INTA
 RUN R -e 'remotes::install_github("AgRoMeteorologiaINTA/agromet", build_vignettes = FALSE)'

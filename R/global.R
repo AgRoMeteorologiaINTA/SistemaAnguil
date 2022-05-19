@@ -6,7 +6,7 @@ library(shinydashboard)
 library(plotly)
 library(RColorBrewer)
 library(wesanderson)
-#library(shinyjs)
+library(shinyWidgets)
 
 # La parte izquierda es la que se ve por ejemplo en la tabla de historicos
 # La parte derecha, es la que busca coincidencia en los nombres de la cartografía
