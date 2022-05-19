@@ -34,7 +34,7 @@ publicacionesUI <- function(id) {
               "Publicaciones climáticas",
               lapply(1:length(archivos_publicaciones), function(j) {
                 tabPanel(
-                  title = archivos_publicaciones[j],
+                  title = stringr::str_sub(archivos_publicaciones[j],4,-5), # se sacan los nºs del comienzo, y el ".pdf"
                   value = archivos_publicaciones[j],
                   tags$iframe(
                     style = "height:800px; width:100%; scrolling=yes",
