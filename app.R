@@ -2,7 +2,7 @@
 # UI
 ui <- navbarPage(
   id = "tabs",
-  title =  div(img(src="logo_inta_40px.png"), "Sistema Anguil"),
+  title =  div(img(src = "logo_inta_40px.png"), "Sistema Anguil"),
   windowTitle = "Sistema Anguil",
   
   theme = shinytheme("flatly"),
@@ -49,22 +49,48 @@ ui <- navbarPage(
   
   #################
   # Cartografía de variables agrometeorológicas
-  tabPanel(
+  # tabPanel(
+  #   title = "Cartografía",
+  #   icon = icon("map-marked-alt", verify_fa = FALSE),
+  #   value = "cartografia",
+  #   h1("Cartografía de variables agrometeorológicas"),
+  #   cartografiaUI(id = "cartografia")
+  # ),
+  
+  navbarMenu(
     title = "Cartografía",
     icon = icon("map-marked-alt", verify_fa = FALSE),
-    value = "cartografia",
-    h1("Cartografía de variables agrometeorológicas"),
-    cartografiaUI(id = "cartografia")
+    tabPanel(
+      title = "Precipitaciones",
+      value = "precipitaciones",
+      h1("Precipitaciones"),
+      cartografiaPrecipitacionesUI(id = "precipitaciones")
+    ),
+    tabPanel(
+      title = "Índices de sequia",
+      value = "indices_sequia",
+      h1("Índices de sequia"),
+      cartografiaSequiasUI(id = "indices_sequia")
+    ),
+    tabPanel(
+      title = "Mapas de heladas",
+      value = "mapas_heladas",
+      h1("Mapas de heladas"),
+      cartografiaHeladasUI(id = "mapas_heladas")
+    ),
+    tabPanel(
+      title = "Promedios históricos",
+      value = "promedios_historicos",
+      h1("Promedios históricos de precipitacion en la provincia de La Pampa"),
+      cartografiaHistoricosUI(id = "promedios_historicos")
+    ),
+    tabPanel(
+      title = "Repositorio digital de archivos",
+      value = "repositorio_digital",
+      h1("Repositorio digital de archivos"),
+      cartografiaRepositorioUI(id = "repositorio_digital")
+    )
   ),
-  
-  # #################
-  # # Calcular índices agrometeorológicos
-  # tabPanel(
-  #   title = "Calcular índices agrometeorológicos",
-  #   icon = icon("calculator"),
-  #   value = "agromet",
-  #   agrometUI(id = "agromet")
-  # ),
   
   #################
   # Links
@@ -121,7 +147,7 @@ ui <- navbarPage(
   ),
   
   tags$footer(
-    'Estación Experimental Agropecuaria Anguil "Ing. Agr. Guillermo Covas". 
+    'Estación Experimental Agropecuaria Anguil "Ing. Agr. Guillermo Covas".
     Ruta Nacional N| 5. Km 580. (6326) Anguil, La Pampa. 02954-495057 - @intaanguil',
     align = "center",
     style = "
@@ -163,7 +189,12 @@ server <- function(input, output, session) {
   
   #################
   # cartografia
-  cartografiaServer(id = "cartografia")
+  cartografiaPrecipitacionesServer(id = "precipitaciones")
+  cartografiaSequiasServer(id = "indices_sequia")
+  cartografiaHeladasServer(id = "mapas_heladas")
+  cartografiaHistoricosServer(id = "promedios_historicos")
+  cartografiaRepositorioServer(id = "repositorio_digital")
+  
   
   #################
   # links
