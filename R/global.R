@@ -45,11 +45,15 @@ meses = setNames(meses_df$mes_id , meses_df$mes_desc)
 direcciones_viento <-
   as_tibble(c("E", "NE", "N", "NO", "O", "SO", "S", "SE"))
 
-# Para gromet
-A872823 <-
-  siga::siga_datos("A872823") # Descarga de datos de Anguil
-fecha_min_A872823 <- min(A872823$fecha) # Fecha minima del dataset
-fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
+## Para gromet
+# A872823 <-
+#   siga::siga_datos("A872823") # Descarga de datos de Anguil
+# fecha_min_A872823 <- min(A872823$fecha) # Fecha minima del dataset
+# fecha_max_A872823 <- max(A872823$fecha) # Fecha maxima del dataset
+datos_siga <-
+  siga::siga_datos("NH0446") # Descarga de datos de Anguil
+fecha_min_datos_siga <- min(datos_siga$fecha) # Fecha minima del dataset
+fecha_max_datos_siga <- max(datos_siga$fecha) # Fecha maxima del dataset
 
 # Para cartografía
 # Listado de los nombres de los archivos (imagenes, pdf's, etc)

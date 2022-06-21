@@ -11,10 +11,10 @@ agroBasicaUI <- function(id) {
       dateRangeInput(
         ns("inFechas"),
         "Rango de fechas:",
-        min    = fecha_min_A872823,
-        max    = fecha_max_A872823,
-        start  = fecha_max_A872823 - 10,
-        end    = fecha_max_A872823,
+        min    = fecha_min_datos_siga,
+        max    = fecha_max_datos_siga,
+        start  = fecha_max_datos_siga - 10,
+        end    = fecha_max_datos_siga,
         format = "dd/mm/yyyy",
         separator = " - ",
         language = "es"
@@ -58,27 +58,25 @@ agroBasicaUI <- function(id) {
             valueBoxOutput(ns("temp_max")),
             valueBoxOutput(ns("temp_mean")),
             valueBoxOutput(ns("lluvia_sum")),
-            valueBoxOutput(ns("viento_mean")),
-            valueBoxOutput(ns("viento_max"))
+            valueBoxOutput(ns("viento_mean"))
+            # ,
+            # valueBoxOutput(ns("viento_max"))
             
-          ),
-          fluidRow(
-            column(2,
-                   )
-            ,
-            column(8,
-                   plotlyOutput(ns("grafico_radar"))
-            )
-            ,
-            
-            column(2,
-                   )
-            )
-            
-            
-            
-          
-          
+          )
+          # ,
+          # fluidRow(
+          #   column(2,
+          #          )
+          #   ,
+          #   column(8,
+          #          plotlyOutput(ns("grafico_radar"))
+          #   )
+          #   ,
+          #   
+          #   column(2,
+          #          )
+          #   )
+
         )
       )
       
@@ -104,7 +102,7 @@ agroBasicaServer <- function(id) {
                  
                  # dataset
                  data_aux_2 <- reactive({
-                   retorno <- A872823 %>%
+                   retorno <- datos_siga %>%
                      filter(fecha >= input$inFechas[1] &
                               fecha <= input$inFechas[2]) %>%
                      summarise(
@@ -112,8 +110,9 @@ agroBasicaServer <- function(id) {
                        tmax = max(temperatura_abrigo_150cm_maxima, na.rm = TRUE),
                        tmean = mean(temperatura_abrigo_150cm, na.rm = TRUE),
                        sum = sum(precipitacion_pluviometrica, na.rm = TRUE),
-                       media_viento = mean(velocidad_viento_200cm_media),
-                       max_viento = max(velocidad_viento_maxima)
+                       media_viento = mean(velocidad_viento_200cm_media, na.rm = TRUE)
+                       # ,
+                       # max_viento = max(velocidad_viento_maxima, na.rm = TRUE)
                      )
                    
                    retorno
@@ -175,89 +174,87 @@ agroBasicaServer <- function(id) {
                    )
                  })
                  
-                 output$viento_max <- renderValueBox({
-                   data <- data_aux_2() %>% select(max_viento)
-                   valueBox(
-                     paste0(round(data, 1), "km/h"),
-                     "Viento Máximo",
-                     icon = icon("wind"),
-                     color = "blue"
-                   )
-                 })
+                 # output$viento_max <- renderValueBox({
+                 #   data <- data_aux_2() %>% select(max_viento)
+                 #   valueBox(
+                 #     paste0(round(data, 1), "km/h"),
+                 #     "Viento Máximo",
+                 #     icon = icon("wind"),
+                 #     color = "blue"
+                 #   )
+                 # })
                  
-                 # dataset
-                 data_plotly <- reactive({
-                   retorno <- A872823 %>%
-                     filter(fecha >= input$inFechas[1] &
-                              fecha <= input$inFechas[2]) %>%
-                     count(direccion_viento_200cm) %>%
-                     rename (dir = direccion_viento_200cm) %>%
-                     filter(dir != 'C') %>%
-                     mutate(
-                       dir = replace(dir, dir == "W", "O"),
-                       dir = replace(dir, dir == "NW", "NO"),
-                       dir = replace(dir, dir == "SW", "SO")
-                     )
-                   
-                   retorno <-
-                     direcciones_viento %>% left_join(retorno, by = c("value" = "dir"))
-                   
-                   retorno
-                 })
+                 # # dataset
+                 # data_plotly <- reactive({
+                 #   retorno <- datos_siga %>%
+                 #     filter(fecha >= input$inFechas[1] &
+                 #              fecha <= input$inFechas[2]) %>%
+                 #     count(direccion_viento_200cm) %>%
+                 #     rename (dir = direccion_viento_200cm) %>%
+                 #     filter(dir != 'C') %>%
+                 #     mutate(
+                 #       dir = replace(dir, dir == "W", "O"),
+                 #       dir = replace(dir, dir == "NW", "NO"),
+                 #       dir = replace(dir, dir == "SW", "SO")
+                 #     )
+                 #   
+                 #   retorno <-
+                 #     direcciones_viento %>% left_join(retorno, by = c("value" = "dir"))
+                 #   
+                 #   retorno
+                 # })
                  
                  
-                 output$grafico_radar <- renderPlotly({
-                   
-                   fig <- plot_ly(
-                     name = "Dir. del Viento",
-                     data = data_plotly(),
-                     type = 'scatterpolar',
-                     mode   = 'markers',
-                     r = ~ n,
-                     theta = ~ value,
-                     hovertemplate = 'Orientación: %{theta}<br>Cantidad: %{r}',
-                     #fill = 'toself',
-                     marker = list(color = "blue",
-                                   size = 10)
-                   )
-                   
-                   fig <- fig %>%
-                     layout(
-                       showlegend = T,
-                       title = list(text = "Frecuencia de vientos o Rosa de los vientos"),
-                       margin = list(t = 50)
-                       # , paper_bgcolor = '#b0bdca'
-                     )
-                   
-                   fig
-                   
-                 })
+                 # output$grafico_radar <- renderPlotly({
+                 #   
+                 #   fig <- plot_ly(
+                 #     name = "Dir. del Viento",
+                 #     data = data_plotly(),
+                 #     type = 'scatterpolar',
+                 #     mode   = 'markers',
+                 #     r = ~ n,
+                 #     theta = ~ value,
+                 #     hovertemplate = 'Orientación: %{theta}<br>Cantidad: %{r}',
+                 #     #fill = 'toself',
+                 #     marker = list(color = "blue",
+                 #                   size = 10)
+                 #   )
+                 #   
+                 #   fig <- fig %>%
+                 #     layout(
+                 #       showlegend = T,
+                 #       title = list(text = "Frecuencia de vientos o Rosa de los vientos"),
+                 #       margin = list(t = 50)
+                 #       # , paper_bgcolor = '#b0bdca'
+                 #     )
+                 #   
+                 #   fig
+                 #   
+                 # })
                  
                  
                  ##### agromet - umbrales
-                 
-                 
-                 data_aux <- reactive({
-                   retorno <- A872823 %>%
-                     filter(fecha >= input$inFechas[1] &
-                              fecha <= input$inFechas[2])
-                   
-                   retorno <- switch(
-                     input$operacion,
-                     "t_a_min" = retorno %>% summarise(
-                       agromet::umbrales(t_30 = temperatura_abrigo_150cm_minima <= input$valor)
-                     ),
-                     "t_a_max" = retorno %>% summarise(
-                       agromet::umbrales(t_30 = temperatura_abrigo_150cm_maxima >= input$valor)
-                     ) ,
-                     "t_i_min" = retorno %>% summarise(
-                       agromet::umbrales(t_30 = temperatura_intemperie_50cm_minima <= input$valor)
-                     )
-                   )
-                   
-                   retorno
-                   
-                 })
+                 # data_aux <- reactive({
+                 #   retorno <- datos_siga %>%
+                 #     filter(fecha >= input$inFechas[1] &
+                 #              fecha <= input$inFechas[2])
+                 #   
+                 #   retorno <- switch(
+                 #     input$operacion,
+                 #     "t_a_min" = retorno %>% summarise(
+                 #       agromet::umbrales(t_30 = temperatura_abrigo_150cm_minima <= input$valor)
+                 #     ),
+                 #     "t_a_max" = retorno %>% summarise(
+                 #       agromet::umbrales(t_30 = temperatura_abrigo_150cm_maxima >= input$valor)
+                 #     ) ,
+                 #     "t_i_min" = retorno %>% summarise(
+                 #       agromet::umbrales(t_30 = temperatura_intemperie_50cm_minima <= input$valor)
+                 #     )
+                 #   )
+                 #   
+                 #   retorno
+                 #   
+                 # })
                  
                  
                })
