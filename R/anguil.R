@@ -4,7 +4,6 @@ library(tidyverse)
 anguil_csv <- readr::read_csv(
   "data/anguil.csv",
   col_types = cols(
-    #X1 = col_skip(),
     fecha = col_date(format = "%d/%m/%Y"),
     codigo_nh = col_integer(),
     t_max = col_double(),
@@ -65,10 +64,8 @@ data_anguil <- anguil_csv %>%
 anguilUI <- function(id) {
   ns <- NS(id)
   
-  
   tagList(
     h1("Climatología de Anguil"),
-    
     h1(""),
     h1(""),
     
@@ -154,7 +151,6 @@ anguilUI <- function(id) {
     )
     
   )
-  
 }
 
 #################################
@@ -162,7 +158,6 @@ anguilUI <- function(id) {
 anguilServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
-                 
                  ###########################################
                  # TEMPERATURAS MEDIAS Y PRECIPITACIÓN
                  output$grafico_1 <- plotly::renderPlotly({
@@ -173,17 +168,17 @@ anguilServer <- function(id) {
                      select(mes_nombre, precip, t_max, t_min) %>%
                      group_by(mes_nombre) %>%
                      summarise(
-                       # suma de mm de los datos diarios para la suma mensual, 
+                       # suma de mm de los datos diarios para la suma mensual,
                        # y despues se hace el promedio de todos los eneros
-                       Precipitaciones = round(
-                         ifelse(sum(is.na(precip)) <= 5 & n() > 25, 
-                                sum(precip, na.rm = TRUE), 
-                                NA) / 30, 
-                         digits = 1),
+                       Precipitaciones = round(ifelse(
+                         sum(is.na(precip)) <= 5 & n() > 25,
+                         sum(precip, na.rm = TRUE),
+                         NA
+                       ) / 30,
+                       digits = 1),
                        prom_t_max = round(mean(t_max, na.rm = TRUE), digits = 1),
                        prom_t_min = round(mean(t_min, na.rm = TRUE), digits = 1)
                      )
-                   
                    
                    fig <- plot_ly(data_grafico)
                    
@@ -287,7 +282,6 @@ anguilServer <- function(id) {
                                       'FUENTE: INTA',
                                       '</sup>')
                      )
-                     
                    )
                    
                    fig
@@ -399,8 +393,7 @@ anguilServer <- function(id) {
                      x = ~ mes_nombre,
                      y = ~ `0mm`,
                      type = 'bar',
-                     name = '0mm'
-                     ,
+                     name = '0mm',
                      marker = list(color = colores[1])
                    )
                    
@@ -541,7 +534,6 @@ anguilServer <- function(id) {
                          0.25, 0.5, 0.75
                        )))
                      )
-                   
                    
                    fig <- plot_ly()
                    

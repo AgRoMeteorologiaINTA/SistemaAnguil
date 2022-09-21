@@ -38,7 +38,6 @@ estadisticasAnguilUI <- function(id) {
     
     tags$h2("2020"),
     fluidRow(lapply(1:12, function(i) {
-      #column(1,
       actionButton(
         paste0('boton', mes_id[i]),
         label = mes_desc[i],
@@ -50,7 +49,6 @@ estadisticasAnguilUI <- function(id) {
           ".xlsx','_blank','resizable')"
         )
       )
-      #)
     }))
     
     

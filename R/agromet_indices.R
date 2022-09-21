@@ -51,21 +51,6 @@ agroIndicesUI <- function(id) {
         dashboardHeader(disable = TRUE),
         dashboardSidebar(disable = TRUE),
         dashboardBody(
-          
-          # tags$head(
-          #   tags$style(
-          #   HTML(
-          #     '
-          #     /* body */
-          #     .content-wrapper, .right-side {
-          #       background-color: #2b3e50; //4e5d6c
-          #     }
-          #     '
-          #   )
-          # )),
-          
-          #h1("Estadísticas básicas"),
-          
           fluidRow(column(6,
                           h3(
                             "Período seleccionado"
@@ -78,12 +63,9 @@ agroIndicesUI <- function(id) {
           
           h3(textOutput(ns("subtitulo_1"))),
           fluidRow(valueBoxOutput(ns("boxN")))
-
         )
       )
-      
     )
-    
   ))
 }
 
@@ -99,25 +81,6 @@ agroIndicesServer <- function(id) {
                      format(input$inFechas[2], "%d/%m/%Y")
                    )
                  })
-                 
-                 # ##### estadísticas generales
-                 # # dataset
-                 # data_aux_2 <- reactive({
-                 #   retorno <- datos_siga %>%
-                 #     filter(fecha >= input$inFechas[1] &
-                 #              fecha <= input$inFechas[2]) %>%
-                 #     summarise(
-                 #       tmin = min(temperatura_abrigo_150cm_minima, na.rm = TRUE),
-                 #       tmax = max(temperatura_abrigo_150cm_maxima, na.rm = TRUE),
-                 #       tmean = mean(temperatura_abrigo_150cm, na.rm = TRUE),
-                 #       sum = sum(precipitacion_pluviometrica, na.rm = TRUE),
-                 #       media_viento = mean(velocidad_viento_200cm_media),
-                 #       max_viento = max(velocidad_viento_maxima)
-                 #     )
-                 #   
-                 #   retorno
-                 # })
-                 
                  
                  ##### agromet - umbrales
                  output$subtitulo_1 <- renderText({
@@ -167,7 +130,6 @@ agroIndicesServer <- function(id) {
                             icon = icon("list"),
                             color = "green")
                  })
-                 
                  
                })
 }

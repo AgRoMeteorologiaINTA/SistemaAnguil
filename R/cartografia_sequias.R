@@ -4,26 +4,23 @@ cartografiaSequiasUI <- function(id) {
   ns <- NS(id)
   
   # SEQUIA  ######################
-  
-           sidebarLayout(
-             sidebarPanel(
-               selectInput(ns('inAnioSeq'),
-                           'Año',
-                           choices = c("2022",
-                                       "2021",
-                                       "2020")),
-               selectInput(ns('inMesSeq'),
-                           'Mes',
-                           choices = c(meses)),
-               tags$a(
-                 "Índice de Sequía de Palmer (2015-2019)",
-                 href = "https://inta.gob.ar/documentos/mapas-de-indice-de-sequia-provincia-de-la-pampa-2015-2019",
-                 target =
-                   "_blank"
-               )
-             ),
-             mainPanel(uiOutput(ns("imagen_2")))
-           )
+  sidebarLayout(sidebarPanel(
+    selectInput(ns('inAnioSeq'),
+                'Año',
+                choices = c("2022",
+                            "2021",
+                            "2020")),
+    selectInput(ns('inMesSeq'),
+                'Mes',
+                choices = c(meses)),
+    tags$a(
+      "Índice de Sequía de Palmer (2015-2019)",
+      href = "https://inta.gob.ar/documentos/mapas-de-indice-de-sequia-provincia-de-la-pampa-2015-2019",
+      target =
+        "_blank"
+    )
+  ),
+  mainPanel(uiOutput(ns("imagen_2"))))
 }
 
 #################################

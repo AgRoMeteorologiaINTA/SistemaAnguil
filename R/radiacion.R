@@ -3,15 +3,11 @@ archivos_rad_solar <-
 
 archivo_info <- paste0("./radiacion/", "radiacion.png")
 
-# flag <- TRUE
-
 #################################
 # UI
 radiacionUI <- function(id) {
   ns <- NS(id)
   
-  # tagList(
-  # tags$h1("Radiación solar")
   sidebarLayout(
     sidebarPanel(
       tags$h2("Información"),
@@ -42,15 +38,10 @@ radiacionUI <- function(id) {
                    "Promedio anual")
       
     ),
-    mainPanel(
-      # textOutput(ns("salida")),
-      uiOutput(ns(
-        "imagen_radiacion"
-      )))
-    
+    mainPanel(uiOutput(ns(
+      "imagen_radiacion"
+    )))
   )
-  
-  # )
 }
 
 #################################
@@ -58,13 +49,11 @@ radiacionUI <- function(id) {
 radiacionServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
-                 
                  observeEvent(input$inBotonInfo, {
                    output$imagen_radiacion <- renderUI({
                      src <- paste0("./radiacion/", "radiacion.png")
                      img(src = src, width = "65%")
                    })
-                   
                  })
                  
                  observeEvent(input$inGB1, {
@@ -76,32 +65,26 @@ radiacionServer <- function(id) {
                        HTML('<h2 style="color: red;">No hay imagen para el periodo seleccionado</h2>')
                      } else {
                        img(src = src)
-                       # img(src = src, width = "80%")
                      }
                      
                    })
                  })
                  
-                 # output$salida <- renderText({
-                 #   src <- paste0("./radiacion/Radiacion_solar_",input$inMes,"_",input$inAnio,".jpg")
-                 #   src
-                 # })
-                 
                  # Radiacion solar
                  observeEvent(c(input$inAnio, input$inMes), {
-                   
                    output$imagen_radiacion <- renderUI({
-                     #ns <- session$ns
-                     
                      src <- archivos_rad_solar %>%
                        str_subset(input$inAnio) %>%
                        str_subset(input$inMes)
                      
                      if (identical(src, character(0))) {
-                       texto_rojo <- '<h3 style="color: red;">¡No hay imagen para el periodo seleccionado!</h3>'
+                       texto_rojo <-
+                         '<h3 style="color: red;">¡No hay imagen para el periodo seleccionado!</h3>'
                        texto_negro <- '<h4>Información:</h4>'
-                       imagen_info <- paste0('<img src="',archivo_info,'">')
-                       code_html <- paste0(texto_rojo, texto_negro, imagen_info)
+                       imagen_info <-
+                         paste0('<img src="', archivo_info, '">')
+                       code_html <-
+                         paste0(texto_rojo, texto_negro, imagen_info)
                        HTML(code_html)
                        
                      } else {
@@ -117,17 +100,7 @@ radiacionServer <- function(id) {
                      src <- paste0("./radiacion/", "RD_promedio_Anual.png")
                      img(src = src, width = "60%")
                    })
-                   
                  })
-                 
-                 # # solo para el aranque por default
-                 # output$imagen_radiacion <- renderUI({
-                 #   # src <- paste0("./radiacion/", "radiacion.png")
-                 #   src <- archivo_info
-                 #   img(src = src, width = "65%")
-                 # })
-                 
-                 
                  
                })
 }

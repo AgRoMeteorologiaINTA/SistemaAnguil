@@ -19,8 +19,9 @@ agroBasicaUI <- function(id) {
         separator = " - ",
         language = "es"
       ),
-      tags$style(HTML(".datepicker {z-index:99999 !important;}"))
-      
+      tags$style(HTML(
+        ".datepicker {z-index:99999 !important;}"
+      ))
       
     ),
     
@@ -29,20 +30,6 @@ agroBasicaUI <- function(id) {
         dashboardHeader(disable = TRUE),
         dashboardSidebar(disable = TRUE),
         dashboardBody(
-          # tags$head(
-          #   tags$style(
-          #   HTML(
-          #     '
-          #     /* body */
-          #     .content-wrapper, .right-side {
-          #       background-color: #2b3e50; //4e5d6c
-          #     }
-          #     '
-          #   )
-          # )),
-          
-          #h1("Estadísticas básicas"),
-          
           fluidRow(column(6,
                           h3(
                             "Período seleccionado: "
@@ -59,24 +46,9 @@ agroBasicaUI <- function(id) {
             valueBoxOutput(ns("temp_mean")),
             valueBoxOutput(ns("lluvia_sum")),
             valueBoxOutput(ns("viento_mean"))
-            # ,
-            # valueBoxOutput(ns("viento_max"))
             
           )
-          # ,
-          # fluidRow(
-          #   column(2,
-          #          )
-          #   ,
-          #   column(8,
-          #          plotlyOutput(ns("grafico_radar"))
-          #   )
-          #   ,
-          #   
-          #   column(2,
-          #          )
-          #   )
-
+          
         )
       )
       
@@ -111,11 +83,10 @@ agroBasicaServer <- function(id) {
                        tmean = mean(temperatura_abrigo_150cm, na.rm = TRUE),
                        sum = sum(precipitacion_pluviometrica, na.rm = TRUE),
                        media_viento = mean(velocidad_viento_200cm_media, na.rm = TRUE)
-                       # ,
-                       # max_viento = max(velocidad_viento_maxima, na.rm = TRUE)
                      )
                    
                    retorno
+                   
                  })
                  
                  
@@ -125,7 +96,7 @@ agroBasicaServer <- function(id) {
                    valueBox(
                      paste0(round(data, 1), "ºC"),
                      "Temp. mínima",
-                     icon = icon("thermometer-empty"),
+                     icon = icon("thermometer-empty", verify_fa = FALSE),
                      color = "blue"
                    )
                  })
@@ -135,7 +106,7 @@ agroBasicaServer <- function(id) {
                    valueBox(
                      paste0(round(data, 1), "ºC"),
                      "Temp. máxima",
-                     icon = icon("thermometer-full"),
+                     icon = icon("thermometer-full", verify_fa = FALSE),
                      color = "red"
                    )
                  })
@@ -145,12 +116,10 @@ agroBasicaServer <- function(id) {
                    valueBox(
                      paste0(round(data, 1), "ºC"),
                      "Temp. promedio",
-                     icon = icon("thermometer-half"),
+                     icon = icon("thermometer-half", verify_fa = FALSE),
                      color = "purple"
                    )
                  })
-                 
-                 
                  
                  # PRECIP
                  output$lluvia_sum <- renderValueBox({
@@ -173,89 +142,6 @@ agroBasicaServer <- function(id) {
                      color = "light-blue"
                    )
                  })
-                 
-                 # output$viento_max <- renderValueBox({
-                 #   data <- data_aux_2() %>% select(max_viento)
-                 #   valueBox(
-                 #     paste0(round(data, 1), "km/h"),
-                 #     "Viento Máximo",
-                 #     icon = icon("wind"),
-                 #     color = "blue"
-                 #   )
-                 # })
-                 
-                 # # dataset
-                 # data_plotly <- reactive({
-                 #   retorno <- datos_siga %>%
-                 #     filter(fecha >= input$inFechas[1] &
-                 #              fecha <= input$inFechas[2]) %>%
-                 #     count(direccion_viento_200cm) %>%
-                 #     rename (dir = direccion_viento_200cm) %>%
-                 #     filter(dir != 'C') %>%
-                 #     mutate(
-                 #       dir = replace(dir, dir == "W", "O"),
-                 #       dir = replace(dir, dir == "NW", "NO"),
-                 #       dir = replace(dir, dir == "SW", "SO")
-                 #     )
-                 #   
-                 #   retorno <-
-                 #     direcciones_viento %>% left_join(retorno, by = c("value" = "dir"))
-                 #   
-                 #   retorno
-                 # })
-                 
-                 
-                 # output$grafico_radar <- renderPlotly({
-                 #   
-                 #   fig <- plot_ly(
-                 #     name = "Dir. del Viento",
-                 #     data = data_plotly(),
-                 #     type = 'scatterpolar',
-                 #     mode   = 'markers',
-                 #     r = ~ n,
-                 #     theta = ~ value,
-                 #     hovertemplate = 'Orientación: %{theta}<br>Cantidad: %{r}',
-                 #     #fill = 'toself',
-                 #     marker = list(color = "blue",
-                 #                   size = 10)
-                 #   )
-                 #   
-                 #   fig <- fig %>%
-                 #     layout(
-                 #       showlegend = T,
-                 #       title = list(text = "Frecuencia de vientos o Rosa de los vientos"),
-                 #       margin = list(t = 50)
-                 #       # , paper_bgcolor = '#b0bdca'
-                 #     )
-                 #   
-                 #   fig
-                 #   
-                 # })
-                 
-                 
-                 ##### agromet - umbrales
-                 # data_aux <- reactive({
-                 #   retorno <- datos_siga %>%
-                 #     filter(fecha >= input$inFechas[1] &
-                 #              fecha <= input$inFechas[2])
-                 #   
-                 #   retorno <- switch(
-                 #     input$operacion,
-                 #     "t_a_min" = retorno %>% summarise(
-                 #       agromet::umbrales(t_30 = temperatura_abrigo_150cm_minima <= input$valor)
-                 #     ),
-                 #     "t_a_max" = retorno %>% summarise(
-                 #       agromet::umbrales(t_30 = temperatura_abrigo_150cm_maxima >= input$valor)
-                 #     ) ,
-                 #     "t_i_min" = retorno %>% summarise(
-                 #       agromet::umbrales(t_30 = temperatura_intemperie_50cm_minima <= input$valor)
-                 #     )
-                 #   )
-                 #   
-                 #   retorno
-                 #   
-                 # })
-                 
                  
                })
 }

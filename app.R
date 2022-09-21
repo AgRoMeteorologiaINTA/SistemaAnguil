@@ -7,19 +7,10 @@ ui <- navbarPage(
   
   theme = shinytheme("flatly"),
   
-  # #################
-  # # Inicio
-  # tabPanel(
-  #   title = " Inicio",
-  #   icon = icon("home", verify_fa = FALSE),
-  #   shinythemes::themeSelector(),
-  #   inicioUI(id = "inicio")
-  # ),
   #################
   # Registros históricos y Climatología Anguil
   navbarMenu(
     title = "Índices Agrometeorológicos",
-    #shinythemes::themeSelector(),
     tabPanel(
       title = "Estadística Básica",
       value = "agromet_basica",
@@ -46,16 +37,6 @@ ui <- navbarPage(
              value = "anguil",
              anguilUI(id = "anguil"))
   ),
-  
-  #################
-  # Cartografía de variables agrometeorológicas
-  # tabPanel(
-  #   title = "Cartografía",
-  #   icon = icon("map-marked-alt", verify_fa = FALSE),
-  #   value = "cartografia",
-  #   h1("Cartografía de variables agrometeorológicas"),
-  #   cartografiaUI(id = "cartografia")
-  # ),
   
   navbarMenu(
     title = "Cartografía",
@@ -171,10 +152,6 @@ ui <- navbarPage(
 # SERVER
 server <- function(input, output, session) {
   #################
-  # Inicio
-  #callModule(inicioServer, "inicio", parent_session = session)
-  
-  #################
   # agromet
   agroBasicaServer(id = "agromet_basica")
   agroIndicesServer(id = "agromet_indices")
@@ -195,7 +172,6 @@ server <- function(input, output, session) {
   cartografiaHistoricosServer(id = "promedios_historicos")
   cartografiaRepositorioServer(id = "repositorio_digital")
   
-  
   #################
   # links
   linksServer(id = "links")
@@ -215,7 +191,6 @@ server <- function(input, output, session) {
   #################
   # Radiación solar
   radiacionServer(id = "radiacion")
-  
   
   #################
   # Estadisticas Anguil

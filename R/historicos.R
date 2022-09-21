@@ -41,7 +41,7 @@ getDat <- function (paramId, paramDesc) {
   
   colnames(retorno) <-
     c(mes_desc, "Año") # a los meses, se le agrega AÑO
-    
+  
   retorno <-
     cbind(fenomenos_csv,
           retorno,
@@ -98,7 +98,6 @@ historicoUI <- function(id) {
 historicoServer <- function(id) {
   moduleServer(id,
                function(input, output, session) {
-                 
                  # Para dejar solo T. Min a 5 y 50
                  # solo para cuando se seleccione Anguil
                  esAnguil <- function(x)
@@ -107,7 +106,7 @@ historicoServer <- function(id) {
                      return(fenomenos) # retorna todo
                    else
                      # retorna todo menos los registros 5 y 6 (T.MIN 5º y 50º)
-                     return(fenomenos[-5:-6]) 
+                     return(fenomenos[-5:-6])
                  }
                  
                  observeEvent(
@@ -128,7 +127,7 @@ historicoServer <- function(id) {
                    data_tabla <- dataset %>%
                      filter(ID_FENOMENO == input$variable) %>%
                      filter(ID_LOCALIDAD == input$localidad) %>%
-                     select(-ID_FENOMENO,-ID_LOCALIDAD,-LOCALIDAD) %>%
+                     select(-ID_FENOMENO, -ID_LOCALIDAD, -LOCALIDAD) %>%
                      t()
                    
                    DT::datatable(
@@ -138,7 +137,7 @@ historicoServer <- function(id) {
                      escape = FALSE
                    ) %>%
                      DT::formatStyle(0, fontWeight = DT::styleEqual("Año", 'bold'))
-
+                   
                  })
                  
                  # Gráfico
@@ -150,7 +149,7 @@ historicoServer <- function(id) {
                    dataset <- dataset %>%
                      filter(ID_FENOMENO == input$variable) %>%
                      filter(ID_LOCALIDAD == input$localidad) %>%
-                     select(-DESC_FENOMENO, -ID_LOCALIDAD, -Año) %>%
+                     select(-DESC_FENOMENO,-ID_LOCALIDAD,-Año) %>%
                      reshape2::melt(id.vars = c("ID_FENOMENO", "LOCALIDAD")) %>%
                      mutate(variable = factor(variable, levels = unique(variable)))
                    
