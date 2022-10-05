@@ -1,3 +1,11 @@
+# Archivos para la sección Radiacón solar.
+# El "mainPanel" tiene solamente un "uiOutput", el cual muestra los archivos .png
+# dentro de la carpeta "./www/radiacion/".
+# Si para la combinacion seleccionada de año y mes en Radiación solas mensual no hay archivos, 
+# se muestra una leyenda que No hay imagen para el periodo seleccionado.
+# Por medio de la función "observeEvent", 
+# se va cambiando la propiedad "src" de la imagen para hacer el render
+
 archivos_rad_solar <-
   list.files("./www/radiacion/", recursive = TRUE)
 

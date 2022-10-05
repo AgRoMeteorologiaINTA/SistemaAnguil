@@ -1,5 +1,10 @@
-##############################
+# Archivo con las funciones principales de la app
+
+############################################################
 # UI
+# Disposición de los objetos "navbarMenu", 
+# y llamados a la parte gráfica de los modulos 
+
 ui <- navbarPage(
   id = "tabs",
   title =  div(img(src = "logo_inta_40px.png"), "Sistema Anguil"),
@@ -62,7 +67,7 @@ ui <- navbarPage(
     tabPanel(
       title = "Promedios históricos",
       value = "promedios_historicos",
-      h1("Promedios históricos de precipitacion en la provincia de La Pampa"),
+      h1("Promedios históricos de precipitación en la provincia de La Pampa"),
       cartografiaHistoricosUI(id = "promedios_historicos")
     ),
     tabPanel(
@@ -148,8 +153,10 @@ ui <- navbarPage(
 )
 
 
-#################################
+############################################################
 # SERVER
+# Llamados a la parte de "server" de los modulos
+
 server <- function(input, output, session) {
   #################
   # agromet
@@ -165,7 +172,7 @@ server <- function(input, output, session) {
   anguilServer(id = "anguil")
   
   #################
-  # cartografia
+  # cartografía
   cartografiaPrecipitacionesServer(id = "precipitaciones")
   cartografiaSequiasServer(id = "indices_sequia")
   cartografiaHeladasServer(id = "mapas_heladas")

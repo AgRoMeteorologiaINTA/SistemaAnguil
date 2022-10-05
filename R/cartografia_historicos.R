@@ -1,3 +1,8 @@
+# Archivo para Promedios históricos de precipitación en la provincia de La Pampa.
+# Se crea un "navlistPanel", según el cual dependiendo el ítem que se seleccione,
+# se muestra un iframe, con el .pdf correspondiente dentro de la carpeta
+# "./www/precipitaciones/"
+
 #################################
 # UI
 cartografiaHistoricosUI <- function(id) {

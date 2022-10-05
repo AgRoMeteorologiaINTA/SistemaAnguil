@@ -1,10 +1,12 @@
+# Archivo para la seccion Radar
+
 #################################
 # UI
 radarUI <- function(id) {
   ns <- NS(id)
   
-  tagList(tags$h1("radar"),
-          tags$h4("radar"))
+  tagList(tags$h1("Radar"),
+          tags$h4("(sección en construcción)"))
 }
 
 #################################

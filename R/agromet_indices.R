@@ -1,3 +1,10 @@
+# Archivo para la pantalla de índices.
+# Se seleccionan 3 cosas:
+# - un rago de fechas,
+# - la operación (que pasa los parametros a la funcion de AGROMET),
+# - y el valor que se le pasa a la operación del paso anterior
+# Con esto, se obtiene el valor del paquete AGROMET
+
 #################################
 # UI
 agroIndicesUI <- function(id) {
@@ -82,7 +89,7 @@ agroIndicesServer <- function(id) {
                    )
                  })
                  
-                 ##### agromet - umbrales
+                 # Armado del subtitulo que se va a mostrar por pantall
                  output$subtitulo_1 <- renderText({
                    aux_formula <- switch(
                      input$operacion,
@@ -96,7 +103,8 @@ agroIndicesServer <- function(id) {
                           input$valor)
                  })
                  
-                 
+                 # Obtención de los datos,
+                 # por medio del paquete AGROMET y funcion UMBRALES
                  data_aux <- reactive({
                    retorno <- datos_siga %>%
                      filter(fecha >= input$inFechas[1] &
@@ -119,7 +127,7 @@ agroIndicesServer <- function(id) {
                    
                  })
                  
-                 # Caja con cantidad de días retornada por la funcion
+                 # Se muestra el valor en un ValueBox
                  output$boxN <- renderValueBox({
                    data <- data_aux() %>% select(N)
                    if (is.na(data)) {

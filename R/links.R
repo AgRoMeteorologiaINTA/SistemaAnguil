@@ -1,3 +1,7 @@
+# Archivo para la seccion de "links".
+# Simplemente es un tagList con objetos "a" ("tags$a"),
+# para publicar links de interés.
+
 #################################
 # UI
 linksUI <- function(id) {

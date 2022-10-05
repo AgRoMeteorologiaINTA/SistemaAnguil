@@ -1,3 +1,9 @@
+# Archivo para Precipitaciones.
+# Hay 2 secciones. LA superior para elegir informes mensuales, 
+# y la inferior para informes historicos.
+# Dependiendo de la seleccion de "selectInput", se levanta el archivo .jpeg
+# dentro de la carpeta "./www/precipitaciones/"
+
 #################################
 # UI
 cartografiaPrecipitacionesUI <- function(id) {

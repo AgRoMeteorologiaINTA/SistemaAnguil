@@ -1,3 +1,9 @@
+# Archivo para la sección Estadísticas datos Anguil.
+# Se usan conjuntamente las funciones "lapply" y "actionButton"
+# para crear los 12 botones por año. Cada botón, tiene asociado
+# un archivo .xls dentro de la carpeta "./www/estadisticas_anguil/"
+# para su descarga
+
 #################################
 # UI
 estadisticasAnguilUI <- function(id) {

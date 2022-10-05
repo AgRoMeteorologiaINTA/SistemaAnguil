@@ -1,4 +1,10 @@
-# armado de arrays con localidades y variables climáticas
+# Archivo para el histórico de Anguil.
+# Hay 2 "selectInput", uno para seleccionar la ciudad,
+# y otro para seleccionar la variable climatológica.
+# Dependiendo de eso, se muestra un gráfico acorde al tipo de variable.
+
+# armado de arrays con localidades
+# y variables climáticas
 localidades_csv <-
   readr::read_delim("data/localidades.csv",
                     ";",
@@ -127,7 +133,7 @@ historicoServer <- function(id) {
                    data_tabla <- dataset %>%
                      filter(ID_FENOMENO == input$variable) %>%
                      filter(ID_LOCALIDAD == input$localidad) %>%
-                     select(-ID_FENOMENO, -ID_LOCALIDAD, -LOCALIDAD) %>%
+                     select(-ID_FENOMENO,-ID_LOCALIDAD,-LOCALIDAD) %>%
                      t()
                    
                    DT::datatable(
@@ -149,7 +155,7 @@ historicoServer <- function(id) {
                    dataset <- dataset %>%
                      filter(ID_FENOMENO == input$variable) %>%
                      filter(ID_LOCALIDAD == input$localidad) %>%
-                     select(-DESC_FENOMENO,-ID_LOCALIDAD,-Año) %>%
+                     select(-DESC_FENOMENO, -ID_LOCALIDAD, -Año) %>%
                      reshape2::melt(id.vars = c("ID_FENOMENO", "LOCALIDAD")) %>%
                      mutate(variable = factor(variable, levels = unique(variable)))
                    

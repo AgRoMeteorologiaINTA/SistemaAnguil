@@ -1,3 +1,6 @@
+# Archivo para Climatología de Anguil
+# Se muestran 6 gráficos con variables climáticas de meses
+
 library(tidyverse)
 
 # Lectura del archivo anguil.csv
@@ -23,7 +26,7 @@ data_anguil <- anguil_csv %>%
     mes =  as_factor(lubridate::month(fecha)),
     dias_mes = lubridate::days_in_month(fecha),
     dias_mes = replace(dias_mes, dias_mes == 29, 28),
-    # en febrero, cambio el dia para bisiestos
+    # en febrero, se cambia el día para años bisiestos
     semana = lubridate::week(fecha),
     mes_nombre = as_factor(
       case_when(

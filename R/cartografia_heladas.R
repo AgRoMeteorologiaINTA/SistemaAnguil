@@ -1,3 +1,10 @@
+# Archivo para Mapas de heladas.
+# En el archivo "global.R", se crea el array "sacar_fechas", el cual contiene las fechas 
+# que no tienen heladas. 
+# Esas fechas se obtienen desde el propio nombre del archivo.
+# La pantalla tiene un calendario solo con las fechas habilitadas 
+# que tienen archivos con heladas dentro de la carpeta "./www/heladas/"
+
 #################################
 # UI
 cartografiaHeladasUI <- function(id) {

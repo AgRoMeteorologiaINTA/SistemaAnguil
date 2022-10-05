@@ -1,3 +1,5 @@
+# Archivo para variables, arrays, y funciones comunes entre modulos de la app.
+
 library(shiny)
 library(shinythemes)
 library(agromet)
@@ -7,9 +9,6 @@ library(plotly)
 library(RColorBrewer)
 library(wesanderson)
 library(shinyWidgets)
-
-# La parte izquierda es la que se ve por ejemplo en la tabla de historicos
-# La parte derecha, es la que busca coincidencia en los nombres de la cartografía
 
 mes_id <-
   c("ENE",
@@ -39,6 +38,9 @@ mes_desc <-
     "Noviembre",
     "Diciembre"
   )
+
+# La parte izquierda es la que se ve por ejemplo en la tabla de historicos
+# La parte derecha, es la que busca coincidencia en los nombres de la cartografía
 meses_df <- data.frame(mes_id, mes_desc)
 meses = setNames(meses_df$mes_id , meses_df$mes_desc)
 

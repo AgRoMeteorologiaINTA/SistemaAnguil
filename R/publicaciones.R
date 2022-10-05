@@ -1,3 +1,12 @@
+# Archivo para la sección "Informes y publicaciones".
+# Se obtienen los nombres de los archivos dentro de la carpeta "./www/informes/".
+# Luego, dependiendo si tienen la palabra "Informe", se colocan en la parte superior
+# de "Informes de evaluación de cultivos",
+# o en la inferior de "Publicaciones climáticas".
+# A cada archivo, se le concatenan 2 digitos al comienzo de cada nombre,
+# con el fin de ordenarlos alfabéticamente.
+# Se usa la funcion "lapply", para crear todos los objetos "tabPanel"
+
 # Listado de archivos en la carpeta www/informes
 carpeta_informes <-
   list.files("./www/informes/", recursive = TRUE)

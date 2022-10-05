@@ -1,8 +1,13 @@
+# Archivo para la pantalla de estadísticas básicas.
+# Se selecciona un rago de fechas, y luego por medio del paquete AGROMET, 
+# se obtienen los datos estadísticos 
+
 #################################
 # UI
 agroBasicaUI <- function(id) {
   ns <- NS(id)
   
+  # traer el datepicker al frente
   tags$style(HTML(".datepicker {z-index:99999 !important;}"))
   
   tagList(sidebarLayout(
@@ -90,7 +95,9 @@ agroBasicaServer <- function(id) {
                  })
                  
                  
-                 # TEMP
+                 ## TEMPERATURA ##
+                 
+                 # Temp. mínima
                  output$temp_min <- renderValueBox({
                    data <- data_aux_2() %>% select(tmin)
                    valueBox(
@@ -101,6 +108,7 @@ agroBasicaServer <- function(id) {
                    )
                  })
                  
+                 # Temp. máxima
                  output$temp_max <- renderValueBox({
                    data <- data_aux_2() %>% select(tmax)
                    valueBox(
@@ -111,6 +119,7 @@ agroBasicaServer <- function(id) {
                    )
                  })
                  
+                 # Temp. promedio
                  output$temp_mean <- renderValueBox({
                    data <- data_aux_2() %>% select(tmean)
                    valueBox(
@@ -121,7 +130,9 @@ agroBasicaServer <- function(id) {
                    )
                  })
                  
-                 # PRECIP
+                 ## PRECIPITACIONES ##
+                 
+                 # Acumulado de precipitación
                  output$lluvia_sum <- renderValueBox({
                    data <- data_aux_2() %>% select(sum)
                    valueBox(
@@ -132,7 +143,9 @@ agroBasicaServer <- function(id) {
                    )
                  })
                  
-                 # VIENTO
+                 ## VIENTO ##
+                 
+                 # Viento Medio
                  output$viento_mean <- renderValueBox({
                    data <- data_aux_2() %>% select(media_viento)
                    valueBox(

@@ -1,3 +1,9 @@
+# Archivo para Índices de sequia.
+# Dependiendo de la seleccion de "selectInput", se levanta el archivo .jpeg
+# dentro de la carpeta "./www/sequias/".
+# Tambien, hay un link a la página del INTA
+# https://inta.gob.ar/documentos/mapas-de-indice-de-sequia-provincia-de-la-pampa-2015-2019
+
 #################################
 # UI
 cartografiaSequiasUI <- function(id) {
