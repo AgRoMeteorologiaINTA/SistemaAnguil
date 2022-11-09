@@ -9,6 +9,9 @@ library(plotly)
 library(RColorBrewer)
 library(wesanderson)
 library(shinyWidgets)
+library(shinycssloaders)
+library(leaflet)
+library(DT)
 
 mes_id <-
   c("ENE",
