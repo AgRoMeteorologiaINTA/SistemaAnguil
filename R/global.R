@@ -12,6 +12,7 @@ library(shinyWidgets)
 library(shinycssloaders)
 library(leaflet)
 library(DT)
+library(rjson)
 
 mes_id <-
   c("ENE",
@@ -84,3 +85,76 @@ sacar_fechas <- dias[!(dias %in% fechas_heladas)]
 
 archivos_repositorio <-
   list.files("./www/repositorios_sig/Presipitaciones/", pattern = "\\.xls$")
+
+# Para radar
+api_url <- "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
+palenque_key <- Sys.getenv("PALENQUE_KEY", unset = NA)
+
+llamar_api <-
+  function(metodo,
+           fechaDesde = "2022-01-01",
+           fechaHasta = "2022-01-01") {
+    #imagenes <- c()
+    imagenes <- data.frame()
+    page <- 0
+    
+    repeat {
+      url <-
+        paste0(
+          api_url,
+          metodo,
+          "?desde=",
+          fechaDesde,
+          "&hasta=",
+          fechaHasta,
+          "&pageIndex=",
+          page
+        )
+      
+      res <- httr::GET(
+        url = url,
+        httr::add_headers(
+          "Authorization" = paste0("Bearer palenque:", palenque_key),
+          "accept" = "application/json",
+          "Content-Type" = "application/json"
+        )
+      )
+      
+      print("res")
+      print(res)
+      
+      # Si la respuesta no es 200, hubo un problema
+      if(res$status != 200)
+        return(NULL)
+      
+      data <- fromJSON(rawToChar(res$content))
+      
+      
+      print("res$status")
+      print(res$status)
+      
+      
+      
+      
+      
+      #imagenes <- append(imagenes, data$items$imageUrl)
+      imagenes <- rbind(imagenes, data.frame(data$items))
+      
+      if (is.null(imagenes)) {
+        return(NULL)
+      }
+      
+      if (is.null(data$moreData)) {
+        return(NULL)
+      }
+      
+      if (data$moreData == FALSE) {
+        break
+      }
+      
+      page <- page + 1
+      
+    }
+    
+    return(imagenes)
+  }
