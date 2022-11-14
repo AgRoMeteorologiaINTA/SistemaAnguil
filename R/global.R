@@ -93,6 +93,9 @@ archivos_repositorio <-
 api_url <- "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
 palenque_key <- Sys.getenv("PALENQUE_KEY", unset = NA)
 
+print("---------- palenque_key-----------")
+print(palenque_key)
+
 llamar_api <-
   function(metodo,
            fechaDesde = "2022-01-01",

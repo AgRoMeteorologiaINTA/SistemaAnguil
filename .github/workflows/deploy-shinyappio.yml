@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build image
-        run: docker build -t image_test .
+        run: docker build --build-arg PALENQUE_KEY="$PALENQUE_KEY" -t image_test .
 
       - name: execute
         run: >
@@ -21,4 +21,5 @@ jobs:
           -e TOKEN=${{secrets.TOKEN}}
           -e SECRET=${{secrets.SECRET}}
           -e MASTERNAME=${{secrets.MASTERNAME}}
+          -e PALENQUE_KEY=${{secrets.PALENQUE_KEY}}
           image_test
