@@ -79,15 +79,20 @@ radarLluviasServer <- function(id) {
                      )
                    )
                    
-                   if (is_empty(retorno)) {
-                     print(retorno)
+                   if (is.null(retorno)) {
+                     print("Sin Datos en VOLS !!!")
                      return(NULL)
+                   } else if (is.na(retorno)) {
+                     print("Problema con la API !!!")
+                     return(NA)
+                   } else {
+                     
+                     # retorno <- as_tibble(retorno) %>% select(imageUrl)
+                     retorno <-
+                       retorno %>% select(imageUrl)  %>% slice_head(n = 1)
+                     return(retorno)
+                     
                    }
-                   
-                   # retorno <- as_tibble(retorno) %>% select(imageUrl)
-                   retorno <-
-                     retorno %>% select(imageUrl)  %>% slice_head(n = 1)
-                   return(retorno)
                  }
                  
                  output$tabla <- renderTable({
@@ -97,6 +102,7 @@ radarLluviasServer <- function(id) {
                  output$mapLluvia <- renderLeaflet({
                    img <- obtenerImagen()
                    
+                   # La API volvio sin datos
                    if (is_null(img)) {
                      
                      content <- paste(sep = "<br/>",
@@ -110,10 +116,29 @@ radarLluviasServer <- function(id) {
                                         options = providerTileOptions(minZoom = 6, maxZoom = 8)) %>%
                        # addProviderTiles("Stamen.TonerLite") 
                        addPopups(lat = -36.5386559, lng = -63.9913761, content)
-                      
+                     
                      
                      return(mapa)
-                       
+                     
+                   }
+                   
+                   # Problema con la conexión a la API
+                   if (is.na(img)) {
+                     
+                     content <- paste(sep = "<br/>",
+                                      '<h5><span style="color:red">¡ Hubo un problema con la API !</span></h5>'
+                     )
+                     
+                     mapa <- leaflet() %>%
+                       # addTiles() %>%
+                       addProviderTiles(providers$CartoDB.Positron,
+                                        options = providerTileOptions(minZoom = 6, maxZoom = 8)) %>%
+                       # addProviderTiles("Stamen.TonerLite") 
+                       addPopups(lat = -36.5386559, lng = -63.9913761, content)
+                     
+                     
+                     return(mapa)
+                     
                    }
                    
                    #img <- "https://s3.dev.fundacionsadosky.org.ar/palenque-integration/inta/lluvias/2022-04-21/2022042100000200Lluvias.tif"

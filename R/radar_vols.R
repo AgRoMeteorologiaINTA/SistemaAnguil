@@ -56,6 +56,8 @@ radarVolsServer <- function(id) {
                    
                    if (is.null(retorno)) {
                      print("Sin Datos en VOLS !!!")
+                   } else if (is.na(retorno)) {
+                     print("Problema con la API !!!")
                    } else {
                      retorno %>%
                        select(measurementTime, indexType, fileUrl) %>%
@@ -86,6 +88,7 @@ radarVolsServer <- function(id) {
                  output$tabla <- DT::renderDT({
                    data <- my_data_table()
                    
+                   # el llamdo volvio, pero sin datos
                    if(is.null(data)){
                      print("La data es NULL!!!!!!")
                      
@@ -93,7 +96,15 @@ radarVolsServer <- function(id) {
                        ~MENSAJE,
                        "No hay DATOS"
                      )
+                   } 
+                   # Problemas con la API
+                   else if (is.na(data)){     
+                     print("La data es NA !!!!!!")
                      
+                     data <- tribble(
+                       ~MENSAJE,
+                       '<span style="color:red">¡ Hubo un problema con la API !</span>'
+                     )
                    }
                    
                    datatable(data,
