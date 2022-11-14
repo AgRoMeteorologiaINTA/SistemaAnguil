@@ -91,7 +91,6 @@ archivos_repositorio <-
 
 # Para radar
 api_url <- "https://inta-api.dev.fundacionsadosky.org.ar/v1.0.0/"
-#api_url <- "https://inta-api.dev.fundsadosky.org.ar/v1.0.0/"
 palenque_key <- Sys.getenv("PALENQUE_KEY", unset = NA)
 
 llamar_api <-
@@ -115,70 +114,23 @@ llamar_api <-
           page
         )
       
-      res <- tryCatch(
-        {
-          #res <- httr::GET(
-          aux <- httr::GET(
-            url = url,
-            httr::add_headers(
-              "Authorization" = paste0("Bearer palenque:", palenque_key),
-              "accept" = "application/json",
-              "Content-Type" = "application/json"
-            )
-          )
-        },
-        error=function(cond) {
-          message(paste("URL does not seem to exist:", url))
-          message("Here's the original error message:")
-          #message(cond)
-          # Choose a return value in case of error
-          return(NA)
-        },
-        warning=function(cond) {
-          message(paste("URL caused a warning:", url))
-          message("Here's the original warning message:")
-          message(cond)
-          # Choose a return value in case of warning
-          return(NULL)
-        },
-        finally={
-          # NOTE:
-          # Here goes everything that should be executed at the end,
-          # regardless of success or error.
-          # If you want more than one expression to be executed, then you 
-          # need to wrap them in curly brackets ({...}); otherwise you could
-          # just have written 'finally=<expression>' 
-          message(paste("Processed URL:", url))
-          message("Some other message at the end")
-          return(aux)
-        }
+      res <- httr::GET(
+        url = url,
+        httr::add_headers(
+          "Authorization" = paste0("Bearer palenque:", palenque_key),
+          "accept" = "application/json",
+          "Content-Type" = "application/json"
+        )
       )
       
-      # hubo error en el llamado a la API
-      if(is.na(res))
-        return(NA)
-      
-      # Si la respuesta no es 200, hubo un problema
-      if(res$status != 200)
-        return(NULL)
-      
       data <- fromJSON(rawToChar(res$content))
-      
-      
-      print("res$status")
-      print(res$status)
-      
       
       #imagenes <- append(imagenes, data$items$imageUrl)
       imagenes <- rbind(imagenes, data.frame(data$items))
       
-      # if (is.null(imagenes)) {
-      #   return(NULL)
-      # }
-      # 
-      # if (is.null(data$moreData)) {
-      #   return(NULL)
-      # }
+      if (is.null(imagenes)) {
+        return(NULL)
+      }
       
       if (data$moreData == FALSE) {
         break

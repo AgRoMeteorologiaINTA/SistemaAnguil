@@ -23,8 +23,8 @@ radarSumarizacionesMedicionesUI <- function(id) {
                             "RhoHV" = "RHOHV",
                             "ZDR" = "ZDR")
               )
-                ,
-                selectInput(
+              ,
+              selectInput(
                 ns('inOperacion'),
                 'Operación',
                 choices = c("Mínimo" = "MIN",
@@ -74,17 +74,9 @@ radarSumarizacionesMedicionesServer <- function(id) {
                      )
                    )
                    
-                   # if (is_empty(retorno)) {
-                   #   print(retorno)
-                   #   return(NULL)
-                   # }
-                   
-                   if (is.null(retorno)) {
-                     print("Sin Datos en VOLS !!!")
+                   if (is_empty(retorno)) {
+                     print(retorno)
                      return(NULL)
-                   } else if (is.na(retorno)) {
-                     print("Problema con la API !!!")
-                     return(NA)
                    }
                    
                    # otros filtros
@@ -93,8 +85,8 @@ radarSumarizacionesMedicionesServer <- function(id) {
                      filter(
                        # indexType == toupper(input$inVariable) &
                        indexType == input$inVariable &
-                              operation == input$inOperacion
-                       ) %>%
+                         operation == input$inOperacion
+                     ) %>%
                      select(imageUrl) %>%
                      slice_head(n = 1)
                    
@@ -123,24 +115,6 @@ radarSumarizacionesMedicionesServer <- function(id) {
                        sep = "<br/>",
                        "<h1>No hay imagenes</h1>",
                        "<h5>Seleccionar nueva fecha u hora y minutos</h5>"
-                     )
-                     
-                     mapa <- leaflet() %>%
-                       # addTiles() %>%
-                       addProviderTiles(providers$CartoDB.Positron,
-                                        options = providerTileOptions(minZoom = 6, maxZoom = 8)) %>%
-                       # addProviderTiles("Stamen.TonerLite")
-                       addPopups(lat = -36.5386559,
-                                 lng = -63.9913761,
-                                 content)
-                     
-                     
-                     return(mapa)
-                     
-                   } else if (is.na(img)) {
-                     content <- paste(
-                       sep = "<br/>",
-                       '<h5><span style="color:red">¡ Hubo un problema con la API !</span></h5>'
                      )
                      
                      mapa <- leaflet() %>%
