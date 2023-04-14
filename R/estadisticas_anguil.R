@@ -12,6 +12,21 @@ estadisticasAnguilUI <- function(id) {
   tagList(
     tags$h1("Estadisticas Anguil"),
     
+    tags$h2("2023"),
+    fluidRow(lapply(1:12, function(i) {
+      actionButton(
+        paste0('boton', mes_id[i]),
+        label = mes_desc[i],
+        value = mes_id[i],
+        onclick = paste0(
+          "window.open('estadisticas_anguil/Sintesis_",
+          mes_id[i] ,
+          "2022" ,
+          ".xlsx','_blank','resizable')"
+        )
+      )
+    })),
+    
     tags$h2("2022"),
     fluidRow(lapply(1:12, function(i) {
       actionButton(
