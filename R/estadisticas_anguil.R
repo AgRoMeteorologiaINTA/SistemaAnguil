@@ -21,7 +21,7 @@ estadisticasAnguilUI <- function(id) {
         onclick = paste0(
           "window.open('estadisticas_anguil/Sintesis_",
           mes_id[i] ,
-          "2022" ,
+          "2023" ,
           ".xlsx','_blank','resizable')"
         )
       )
